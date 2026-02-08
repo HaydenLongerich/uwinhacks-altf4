@@ -2,24 +2,7 @@ import type { User } from "@supabase/supabase-js";
 import type { PlatformProfile } from "@/lib/types/platform";
 
 type SupabaseLike = {
-  from: (table: string) => {
-    select: (columns: string) => {
-      eq: (column: string, value: string) => {
-        maybeSingle: () => Promise<{ data: Record<string, unknown> | null; error: { message: string } | null }>;
-      };
-    };
-    insert: (
-      values: Record<string, unknown>,
-    ) => {
-      select: (columns: string) => {
-        maybeSingle: () => Promise<{ data: Record<string, unknown> | null; error: { message: string } | null }>;
-      };
-    };
-    upsert?: (
-      values: Record<string, unknown>,
-      options?: Record<string, unknown>,
-    ) => Promise<{ error: { message: string } | null }>;
-  };
+  from: (table: string) => any;
 };
 
 const DEFAULT_LEVEL = 1;
