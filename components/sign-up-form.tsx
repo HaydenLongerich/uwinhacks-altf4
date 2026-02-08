@@ -21,6 +21,7 @@ export function SignUpForm({
   redirectTo = "/dashboard",
   ...props
 }: React.ComponentPropsWithoutRef<"div"> & { redirectTo?: string }) {
+  const authRedirectBase = "https://uwinhacks-altf4.vercel.app";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
@@ -45,7 +46,7 @@ export function SignUpForm({
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth/confirm?next=${encodeURIComponent(
+          emailRedirectTo: `${authRedirectBase}/auth/confirm?next=${encodeURIComponent(
             redirectTo,
           )}`,
         },
