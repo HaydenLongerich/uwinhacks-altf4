@@ -1,9 +1,13 @@
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
+import { Suspense } from "react";
 import { AuthGateway } from "@/components/auth/auth-gateway";
 import { createClient } from "@/lib/supabase/server";
 import { ensureProfile } from "@/lib/supabase/profile";
 
-export default async function AuthPage() {
+async function AuthPageContent() {
+  await connection();
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -35,5 +39,13 @@ export default async function AuthPage() {
         <AuthGateway />
       </div>
     </main>
+  );
+}
+
+export default function AuthPage() {
+  return (
+    <Suspense>
+      <AuthPageContent />
+    </Suspense>
   );
 }
