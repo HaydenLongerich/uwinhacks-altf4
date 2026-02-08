@@ -5,6 +5,8 @@ import { OrbitControls } from "@react-three/drei";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { applyProfileProgress } from "@/lib/supabase/progress";
+import { activityRewards } from "@/lib/data/activity-rewards";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -30,6 +32,18 @@ const BACKGROUND_COLORS: Record<BackdropPreset, string> = {
 
 const ADVANCED_ITEMS: OutfitPreset[] = ["pilot-jacket"];
 const ALL_OUTFITS: OutfitPreset[] = ["hoodie", "blazer", "vest", "pilot-jacket"];
+
+function looksLikeMissingColumn(errorMessage: string | undefined, column: string) {
+  if (!errorMessage) {
+    return false;
+  }
+  const lower = errorMessage.toLowerCase();
+  return (
+    lower.includes("column") &&
+    lower.includes(column.toLowerCase()) &&
+    (lower.includes("does not exist") || lower.includes("schema cache"))
+  );
+}
 
 function AvatarModel({ config }: { config: AvatarConfig }) {
   const outfitColor = useMemo(() => {
@@ -169,19 +183,47 @@ export function AvatarEditor({
         throw avatarError;
       }
 
-      const { error: profileError } = await supabase
+      const profilePatch = {
+        avatar_completed: true,
+        avatar_config: config,
+      };
+
+      const byUserIdResult = await supabase
         .from("profiles")
-        .update({
-          avatar_completed: true,
-          avatar_config: config,
-        })
+        .update(profilePatch)
         .eq("user_id", userId);
+
+      let profileError = byUserIdResult.error;
+      if (profileError && looksLikeMissingColumn(profileError.message, "user_id")) {
+        const byIdResult = await supabase
+          .from("profiles")
+          .update(profilePatch)
+          .eq("id", userId);
+        profileError = byIdResult.error;
+      }
 
       if (profileError) {
         throw profileError;
       }
+      const profileProgress = await applyProfileProgress({
+        supabase,
+        userId,
+        xpDelta: activityRewards.avatarSetup.xp,
+        coinsDelta: activityRewards.avatarSetup.coins,
+      });
 
-      setStatus("Avatar saved.");
+      if (!profileProgress.ok) {
+        setStatus(
+          profileProgress.storageReady
+            ? "Avatar saved, but reward update failed."
+            : "Avatar saved locally. Apply schema to persist rewards.",
+        );
+      } else {
+        setStatus(
+          `Avatar saved. +${activityRewards.avatarSetup.xp} XP, +${activityRewards.avatarSetup.coins} coins.`,
+        );
+      }
+
       router.push("/dashboard");
       router.refresh();
     } catch (unknownError) {

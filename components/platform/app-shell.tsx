@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LogoutButton } from "@/components/logout-button";
 import { Badge } from "@/components/ui/badge";
+import { progressToNextLevel } from "@/lib/engines/rewards";
 import type { PlatformProfile } from "@/lib/types/platform";
 
 const navItems = [
@@ -14,14 +15,8 @@ const navItems = [
 ];
 
 function levelProgress(profile: PlatformProfile) {
-  const previousThreshold = Math.pow(Math.max(1, profile.level - 1), 2) * 100;
-  const nextThreshold = Math.pow(profile.level, 2) * 100;
-  const numerator = profile.xp - previousThreshold;
-  const denominator = nextThreshold - previousThreshold;
-  if (denominator <= 0) {
-    return 1;
-  }
-  return Math.min(1, Math.max(0, numerator / denominator));
+  const progress = progressToNextLevel(profile.xp);
+  return Math.min(1, Math.max(0, progress.ratio));
 }
 
 export function AppShell({

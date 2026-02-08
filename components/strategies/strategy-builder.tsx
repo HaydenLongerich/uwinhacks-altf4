@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Line,
   LineChart,
@@ -12,6 +13,8 @@ import {
 import { evaluateRules } from "@/lib/engines/strategies";
 import { runSimulation } from "@/lib/engines/simulation";
 import { createClient } from "@/lib/supabase/client";
+import { applyProfileProgress } from "@/lib/supabase/progress";
+import { activityRewards } from "@/lib/data/activity-rewards";
 import type { StrategyRule } from "@/lib/types/platform";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -49,6 +52,7 @@ function formatCurrency(value: number) {
 }
 
 export function StrategyBuilder({ userId }: { userId: string }) {
+  const router = useRouter();
   const supabase = createClient();
   const [name, setName] = useState("Crash Buyer");
   const [seed, setSeed] = useState("strategy-lab");
@@ -89,6 +93,7 @@ export function StrategyBuilder({ userId }: { userId: string }) {
     setRules((current) => current.filter((rule) => rule.id !== id));
 
   const saveStrategy = async () => {
+    const { xp: rewardXp, coins: rewardCoins } = activityRewards.strategyTemplate;
     const payload = {
       user_id: userId,
       name,
@@ -99,11 +104,29 @@ export function StrategyBuilder({ userId }: { userId: string }) {
     localStorage.setItem(`altf4-strategy:${name}`, JSON.stringify(payload));
     setStatus(null);
 
+    let strategyStatus =
+      "Strategy saved locally. Database tables may not be initialized yet.";
     try {
       await supabase.from("strategies").insert(payload);
-      setStatus("Strategy saved to database and local storage.");
+      strategyStatus = "Strategy saved to database and local storage.";
     } catch {
-      setStatus("Strategy saved locally. Database tables may not be initialized yet.");
+      // Keep local-save status fallback; reward update still runs.
+    }
+
+    const progressResult = await applyProfileProgress({
+      supabase,
+      userId,
+      xpDelta: rewardXp,
+      coinsDelta: rewardCoins,
+    });
+
+    if (progressResult.ok) {
+      setStatus(`${strategyStatus} +${rewardXp} XP, +${rewardCoins} coins.`);
+      router.refresh();
+    } else {
+      setStatus(
+        `${strategyStatus} Rewards failed: ${progressResult.error ?? "profile update error"}`,
+      );
     }
   };
 

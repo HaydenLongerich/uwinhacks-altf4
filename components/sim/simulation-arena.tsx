@@ -15,6 +15,7 @@ import { scoreBehavior } from "@/lib/engines/behavior";
 import { evaluateBadges, scoreCoins, scoreDecisionXp } from "@/lib/engines/rewards";
 import { runSimulation } from "@/lib/engines/simulation";
 import { createClient } from "@/lib/supabase/client";
+import { applyProfileProgress } from "@/lib/supabase/progress";
 import type { DecisionAction, MarketYear, YearDecision } from "@/lib/types/platform";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -130,6 +131,19 @@ export function SimulationArena({ userId }: { userId: string }) {
     };
 
     sessionStorage.setItem(`altf4-result:${resultId}`, JSON.stringify(payload));
+
+    await applyProfileProgress({
+      supabase,
+      userId,
+      xpDelta: xp,
+      coinsDelta: coins,
+      streakDelta: 1,
+      behavior: {
+        discipline: behavior.discipline,
+        riskTolerance: behavior.riskTolerance,
+        patience: behavior.patience,
+      },
+    });
 
     try {
       const { error: simulationError } = await supabase.from("simulations").insert({

@@ -1,12 +1,25 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { lessonDeck } from "@/lib/data/lessons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
+import { applyProfileProgress } from "@/lib/supabase/progress";
+
+const MIN_CORRECT_XP = 10;
+const MAX_CORRECT_XP = 30;
+
+function rollCorrectXp() {
+  return (
+    Math.floor(Math.random() * (MAX_CORRECT_XP - MIN_CORRECT_XP + 1)) +
+    MIN_CORRECT_XP
+  );
+}
 
 export function LessonArena({ userId }: { userId: string }) {
+  const router = useRouter();
   const supabase = createClient();
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -14,6 +27,7 @@ export function LessonArena({ userId }: { userId: string }) {
   const [xpEarned, setXpEarned] = useState(0);
   const [coinsEarned, setCoinsEarned] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
+  const [status, setStatus] = useState<string | null>(null);
 
   const lesson = lessonDeck[index];
   const progress = ((index + (selected !== null ? 1 : 0)) / lessonDeck.length) * 100;
@@ -36,16 +50,17 @@ export function LessonArena({ userId }: { userId: string }) {
     const answerCorrect = answerIndex === lesson.question.correctIndex;
     setSelected(answerIndex);
     setIsCorrect(answerCorrect);
+    setStatus(null);
 
     if (answerCorrect) {
-      const lessonXp = lesson.xpReward;
-      const lessonCoins = Math.max(5, Math.floor(lesson.xpReward * 0.6));
-      setXpEarned((current) => current + lessonXp);
-      setCoinsEarned((current) => current + lessonCoins);
+      const lessonXp = rollCorrectXp();
+      const lessonCoins = Math.max(5, Math.floor(lessonXp * 0.6));
 
       setIsSaving(true);
       try {
-        await supabase.from("lesson_progress").upsert(
+        let note: string | null = null;
+
+        const { error: lessonProgressError } = await supabase.from("lesson_progress").upsert(
           {
             user_id: userId,
             lesson_id: lesson.id,
@@ -57,8 +72,39 @@ export function LessonArena({ userId }: { userId: string }) {
             onConflict: "user_id,lesson_id",
           },
         );
-      } catch {
-        // Progress persistence is optional during local development.
+
+        if (lessonProgressError) {
+          note = "Lesson completion table is not ready yet. Rewards still apply.";
+        }
+
+        const progressResult = await applyProfileProgress({
+          supabase,
+          userId,
+          xpDelta: lessonXp,
+          coinsDelta: lessonCoins,
+          streakDelta: 1,
+        });
+
+        if (progressResult.ok) {
+          setXpEarned((current) => current + lessonXp);
+          setCoinsEarned((current) => current + lessonCoins);
+          if (note) {
+            setStatus(note);
+          }
+          router.refresh();
+        } else {
+          setStatus(
+            progressResult.storageReady
+              ? `Could not update profile rewards right now. ${progressResult.error ?? ""}`.trim()
+              : "Supabase schema is incomplete, so rewards could not be persisted.",
+          );
+        }
+      } catch (unknownError) {
+        setStatus(
+          unknownError instanceof Error
+            ? unknownError.message
+            : "Could not save lesson rewards right now.",
+        );
       } finally {
         setIsSaving(false);
       }
@@ -73,6 +119,7 @@ export function LessonArena({ userId }: { userId: string }) {
     }
     setSelected(null);
     setIsCorrect(null);
+    setStatus(null);
   };
 
   return (
@@ -137,6 +184,7 @@ export function LessonArena({ userId }: { userId: string }) {
             </Button>
           </div>
           {isSaving ? <p className="text-xs text-slate-400">Saving progress...</p> : null}
+          {status ? <p className="text-xs text-slate-500">{status}</p> : null}
         </CardContent>
       </Card>
     </div>

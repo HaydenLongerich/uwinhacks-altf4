@@ -3,19 +3,21 @@ import type {
   SimulationState,
   YearDecision,
 } from "@/lib/types/platform";
+import { simulationActionRewards } from "@/lib/data/activity-rewards";
 
 export function levelFromXp(xp: number) {
-  return Math.max(1, Math.floor(Math.sqrt(Math.max(0, xp) / 100)) + 1);
+  const safeXp = Math.max(0, xp);
+  return Math.floor(Math.sqrt(safeXp / 100));
 }
 
 export function xpForNextLevel(level: number) {
-  return Math.pow(Math.max(level, 1), 2) * 100;
+  return Math.pow(Math.max(0, level), 2) * 100;
 }
 
 export function progressToNextLevel(xp: number) {
   const currentLevel = levelFromXp(xp);
-  const currentFloor = xpForNextLevel(currentLevel - 1);
-  const nextFloor = xpForNextLevel(currentLevel);
+  const currentFloor = xpForNextLevel(currentLevel);
+  const nextFloor = xpForNextLevel(currentLevel + 1);
   return {
     currentLevel,
     currentFloor,
@@ -28,33 +30,17 @@ export function progressToNextLevel(xp: number) {
 }
 
 export function scoreDecisionXp(decisions: YearDecision[]) {
-  return decisions.reduce((sum, decision) => {
-    if (decision.action === "rebalance") {
-      return sum + 12;
-    }
-    if (decision.action === "hold") {
-      return sum + 8;
-    }
-    if (decision.action === "buy") {
-      return sum + 10;
-    }
-    return sum + 5;
-  }, 0);
+  return decisions.reduce(
+    (sum, decision) => sum + simulationActionRewards[decision.action].xp,
+    0,
+  );
 }
 
 export function scoreCoins(decisions: YearDecision[]) {
-  return decisions.reduce((sum, decision) => {
-    if (decision.action === "rebalance") {
-      return sum + 5;
-    }
-    if (decision.action === "hold") {
-      return sum + 3;
-    }
-    if (decision.action === "buy") {
-      return sum + 4;
-    }
-    return sum + 2;
-  }, 0);
+  return decisions.reduce(
+    (sum, decision) => sum + simulationActionRewards[decision.action].coins,
+    0,
+  );
 }
 
 export function evaluateBadges(timeline: SimulationState[]): RewardBadge[] {

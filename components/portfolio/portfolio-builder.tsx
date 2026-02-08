@@ -1,7 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { applyProfileProgress } from "@/lib/supabase/progress";
+import { activityRewards } from "@/lib/data/activity-rewards";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -77,6 +80,7 @@ function reorder<T>(items: T[], from: number, to: number) {
 }
 
 export function PortfolioBuilder({ userId }: { userId: string }) {
+  const router = useRouter();
   const supabase = createClient();
   const [assets, setAssets] = useState<AssetCard[]>(STARTING_ASSETS);
   const [templateName, setTemplateName] = useState("Core Growth");
@@ -122,6 +126,7 @@ export function PortfolioBuilder({ userId }: { userId: string }) {
   };
 
   const saveTemplate = async () => {
+    const { xp: rewardXp, coins: rewardCoins } = activityRewards.portfolioTemplate;
     const normalized = normalize(assets);
     setAssets(normalized);
     setStatus(null);
@@ -144,11 +149,28 @@ export function PortfolioBuilder({ userId }: { userId: string }) {
       JSON.stringify({ ...payload, savedAt: new Date().toISOString() }),
     );
 
+    let templateStatus = "Template saved locally. Database tables may not be initialized yet.";
     try {
       await supabase.from("portfolios").insert(payload);
-      setStatus("Template saved to database and local storage.");
+      templateStatus = "Template saved to database and local storage.";
     } catch {
-      setStatus("Template saved locally. Database tables may not be initialized yet.");
+      // Keep local-save status fallback; reward update still runs.
+    }
+
+    const progressResult = await applyProfileProgress({
+      supabase,
+      userId,
+      xpDelta: rewardXp,
+      coinsDelta: rewardCoins,
+    });
+
+    if (progressResult.ok) {
+      setStatus(`${templateStatus} +${rewardXp} XP, +${rewardCoins} coins.`);
+      router.refresh();
+    } else {
+      setStatus(
+        `${templateStatus} Rewards failed: ${progressResult.error ?? "profile update error"}`,
+      );
     }
   };
 

@@ -348,7 +348,7 @@ export function ResultsView({ resultId }: { resultId: string }) {
 
       <div className="grid gap-3 sm:grid-cols-2">
         <Button asChild className="bg-cyan-500 font-semibold text-slate-950 hover:bg-cyan-400">
-          <Link href={`/simulate?seed=${encodeURIComponent(payload.run.seed)}`}>
+          <Link href={`/simulate?mode=classic&seed=${encodeURIComponent(payload.run.seed)}`}>
             Replay Better
           </Link>
         </Button>

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { activityRewards } from "@/lib/data/activity-rewards";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -17,6 +19,7 @@ export function ReportsCenter({
 }: {
   initialReports: ReportItem[];
 }) {
+  const router = useRouter();
   const [reports, setReports] = useState(initialReports);
   const [status, setStatus] = useState<string | null>(null);
   const [isQueueing, setIsQueueing] = useState(false);
@@ -39,7 +42,10 @@ export function ReportsCenter({
       }
 
       setReports((current) => [payload.report as ReportItem, ...current]);
-      setStatus("Weekly report queued. Worker will generate PDF.");
+      setStatus(
+        `Weekly report queued. +${activityRewards.weeklyReport.xp} XP, +${activityRewards.weeklyReport.coins} coins. Worker will generate PDF.`,
+      );
+      router.refresh();
     } catch (error) {
       setStatus(
         error instanceof Error

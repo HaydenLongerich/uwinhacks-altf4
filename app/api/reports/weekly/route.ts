@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { applyProfileProgress } from "@/lib/supabase/progress";
+import { activityRewards } from "@/lib/data/activity-rewards";
 
 export async function POST() {
   const supabase = await createClient();
@@ -34,6 +36,13 @@ export async function POST() {
   } catch {
     // Report queue works even when schema is missing; front-end keeps local state.
   }
+
+  await applyProfileProgress({
+    supabase,
+    userId: user.id,
+    xpDelta: activityRewards.weeklyReport.xp,
+    coinsDelta: activityRewards.weeklyReport.coins,
+  });
 
   return NextResponse.json({
     ok: true,
