@@ -223,8 +223,8 @@ export function ResultsView({ resultId }: { resultId: string }) {
 
   if (!payload) {
     return (
-      <Card className="border-white/10 bg-slate-900/70">
-        <CardContent className="py-8 text-center text-sm text-slate-300">
+      <Card className="border-slate-200 bg-white">
+        <CardContent className="py-8 text-center text-sm text-slate-600">
           {status ?? "Loading results..."}
         </CardContent>
       </Card>
@@ -233,7 +233,7 @@ export function ResultsView({ resultId }: { resultId: string }) {
 
   return (
     <div className="space-y-5">
-      <Card className="border-white/10 bg-slate-900/70">
+      <Card className="border-slate-200 bg-white">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Simulation Summary</CardTitle>
           <div className="flex gap-2">
@@ -243,19 +243,19 @@ export function ResultsView({ resultId }: { resultId: string }) {
           </div>
         </CardHeader>
         <CardContent className="grid gap-3 md:grid-cols-4">
-          <div className="rounded-lg border border-white/10 bg-white/5 p-3">
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
             <p className="text-xs text-slate-400">Ending wealth</p>
             <p className="font-semibold">{formatCurrency(payload.run.endingWealth)}</p>
           </div>
-          <div className="rounded-lg border border-white/10 bg-white/5 p-3">
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
             <p className="text-xs text-slate-400">CAGR</p>
             <p className="font-semibold">{(payload.run.cagr * 100).toFixed(2)}%</p>
           </div>
-          <div className="rounded-lg border border-white/10 bg-white/5 p-3">
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
             <p className="text-xs text-slate-400">XP gained</p>
             <p className="font-semibold">{payload.xp}</p>
           </div>
-          <div className="rounded-lg border border-white/10 bg-white/5 p-3">
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
             <p className="text-xs text-slate-400">Coins gained</p>
             <p className="font-semibold">{payload.coins}</p>
           </div>
@@ -263,7 +263,7 @@ export function ResultsView({ resultId }: { resultId: string }) {
       </Card>
 
       <div className="grid gap-5 xl:grid-cols-[1.2fr_1fr]">
-        <Card className="border-white/10 bg-slate-900/70">
+        <Card className="border-slate-200 bg-white">
           <CardHeader>
             <CardTitle>Wealth and Stress</CardTitle>
           </CardHeader>
@@ -281,7 +281,7 @@ export function ResultsView({ resultId }: { resultId: string }) {
           </CardContent>
         </Card>
 
-        <Card className="border-white/10 bg-slate-900/70">
+        <Card className="border-slate-200 bg-white">
           <CardHeader>
             <CardTitle>Decision Breakdown</CardTitle>
           </CardHeader>
@@ -299,24 +299,24 @@ export function ResultsView({ resultId }: { resultId: string }) {
         </Card>
       </div>
 
-      <Card className="border-white/10 bg-slate-900/70">
+      <Card className="border-slate-200 bg-white">
         <CardHeader>
           <CardTitle>Mistake Analysis</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-2 text-sm text-slate-200">
+        <CardContent className="space-y-2 text-sm text-slate-700">
           {mistakes.map((item) => (
             <p key={item}>- {item}</p>
           ))}
         </CardContent>
       </Card>
 
-      <Card className="border-white/10 bg-slate-900/70">
+      <Card className="border-slate-200 bg-white">
         <CardHeader>
           <CardTitle>NPC Leaderboard</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 text-sm">
           {leaderboard.map((npc, index) => (
-            <div key={npc.npcKey} className="flex items-center justify-between rounded-md border border-white/10 bg-white/5 px-3 py-2">
+            <div key={npc.npcKey} className="flex items-center justify-between rounded-md border border-slate-200 bg-slate-50 px-3 py-2">
               <p>
                 {index + 1}. {npc.npcLabel}
               </p>
@@ -326,7 +326,7 @@ export function ResultsView({ resultId }: { resultId: string }) {
         </CardContent>
       </Card>
 
-      <Card className="border-white/10 bg-slate-900/70">
+      <Card className="border-slate-200 bg-white">
         <CardHeader>
           <CardTitle>Multiverse Comparison</CardTitle>
         </CardHeader>
@@ -347,12 +347,12 @@ export function ResultsView({ resultId }: { resultId: string }) {
       </Card>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <Button asChild className="bg-cyan-400 font-semibold text-slate-950 hover:bg-cyan-300">
+        <Button asChild className="bg-cyan-500 font-semibold text-slate-950 hover:bg-cyan-400">
           <Link href={`/simulate?seed=${encodeURIComponent(payload.run.seed)}`}>
             Replay Better
           </Link>
         </Button>
-        <Button asChild variant="outline" className="border-white/20 bg-white/5 text-slate-100 hover:bg-white/10">
+        <Button asChild variant="outline" className="border-slate-300 bg-slate-50 text-slate-900 hover:bg-slate-100">
           <Link href="/dashboard">Back to Dashboard</Link>
         </Button>
       </div>

@@ -197,12 +197,12 @@ export function AvatarEditor({
 
   return (
     <div className="grid gap-5 lg:grid-cols-[1.2fr_1fr]">
-      <Card className="border-white/10 bg-slate-900/70">
+      <Card className="border-slate-200 bg-white">
         <CardHeader>
           <CardTitle>3D Avatar Setup</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-[460px] overflow-hidden rounded-xl border border-white/10">
+          <div className="h-[460px] overflow-hidden rounded-xl border border-slate-200">
             <Canvas
               camera={{ position: [0, 1.2, 3], fov: 40 }}
               style={{ background }}
@@ -217,7 +217,7 @@ export function AvatarEditor({
         </CardContent>
       </Card>
 
-      <Card className="border-white/10 bg-slate-900/70">
+      <Card className="border-slate-200 bg-white">
         <CardHeader>
           <CardTitle>Customize</CardTitle>
         </CardHeader>
@@ -229,7 +229,7 @@ export function AvatarEditor({
               type="color"
               value={config.skinTone}
               onChange={(event) => updateConfig("skinTone", event.target.value)}
-              className="h-10 border-white/10 bg-transparent p-1"
+              className="h-10 border-slate-200 bg-transparent p-1"
             />
           </div>
 
@@ -240,7 +240,7 @@ export function AvatarEditor({
               type="color"
               value={config.hairColor}
               onChange={(event) => updateConfig("hairColor", event.target.value)}
-              className="h-10 border-white/10 bg-transparent p-1"
+              className="h-10 border-slate-200 bg-transparent p-1"
             />
           </div>
 
@@ -254,8 +254,8 @@ export function AvatarEditor({
                   variant={config.hairStyle === style ? "default" : "outline"}
                   className={
                     config.hairStyle === style
-                      ? "bg-cyan-400 text-slate-950 hover:bg-cyan-300"
-                      : "border-white/15 bg-white/5 text-slate-100 hover:bg-white/10"
+                      ? "bg-cyan-500 text-slate-950 hover:bg-cyan-400"
+                      : "border-slate-200 bg-slate-50 text-slate-900 hover:bg-slate-100"
                   }
                   onClick={() => updateConfig("hairStyle", style)}
                 >
@@ -278,8 +278,8 @@ export function AvatarEditor({
                     variant={config.outfit === outfit ? "default" : "outline"}
                     className={
                       config.outfit === outfit
-                        ? "bg-cyan-400 text-slate-950 hover:bg-cyan-300"
-                        : "border-white/15 bg-white/5 text-slate-100 hover:bg-white/10"
+                        ? "bg-cyan-500 text-slate-950 hover:bg-cyan-400"
+                        : "border-slate-200 bg-slate-50 text-slate-900 hover:bg-slate-100"
                     }
                     onClick={() => {
                       if (!locked) {
@@ -305,8 +305,8 @@ export function AvatarEditor({
                   variant={config.background === preset ? "default" : "outline"}
                   className={
                     config.background === preset
-                      ? "bg-cyan-400 text-slate-950 hover:bg-cyan-300"
-                      : "border-white/15 bg-white/5 text-slate-100 hover:bg-white/10"
+                      ? "bg-cyan-500 text-slate-950 hover:bg-cyan-400"
+                      : "border-slate-200 bg-slate-50 text-slate-900 hover:bg-slate-100"
                   }
                   onClick={() => updateConfig("background", preset)}
                 >
@@ -320,11 +320,11 @@ export function AvatarEditor({
             type="button"
             onClick={saveAvatar}
             disabled={isSaving}
-            className="mt-2 w-full bg-cyan-400 font-semibold text-slate-950 hover:bg-cyan-300"
+            className="mt-2 w-full bg-cyan-500 font-semibold text-slate-950 hover:bg-cyan-400"
           >
             {isSaving ? "Saving..." : "Save Avatar"}
           </Button>
-          {status ? <p className="text-xs text-slate-300">{status}</p> : null}
+          {status ? <p className="text-xs text-slate-600">{status}</p> : null}
         </CardContent>
       </Card>
     </div>

@@ -77,7 +77,7 @@ export function LessonArena({ userId }: { userId: string }) {
 
   return (
     <div className="space-y-4">
-      <Card className="border-white/10 bg-slate-900/70">
+      <Card className="border-slate-200 bg-white">
         <CardHeader>
           <CardTitle>30-Second Learning</CardTitle>
         </CardHeader>
@@ -86,12 +86,12 @@ export function LessonArena({ userId }: { userId: string }) {
             <p className="text-xs uppercase tracking-[0.25em] text-slate-400">
               {lesson.topic}
             </p>
-            <p className="text-sm text-slate-200">{lesson.concept}</p>
+            <p className="text-sm text-slate-700">{lesson.concept}</p>
           </div>
 
-          <div className="h-2 w-full rounded-full bg-white/10">
+          <div className="h-2 w-full rounded-full bg-slate-100">
             <div
-              className="h-full rounded-full bg-cyan-400 transition-all"
+              className="h-full rounded-full bg-cyan-500 transition-all"
               style={{ width: `${Math.round(progress)}%` }}
             />
           </div>
@@ -105,7 +105,7 @@ export function LessonArena({ userId }: { userId: string }) {
                   key={option}
                   type="button"
                   variant="outline"
-                  className={`w-full justify-start border-white/15 bg-white/5 text-left text-slate-100 hover:bg-white/10 ${
+                  className={`w-full justify-start border-slate-200 bg-slate-50 text-left text-slate-900 hover:bg-slate-100 ${
                     active ? "border-cyan-300/60 bg-cyan-300/10" : ""
                   }`}
                   onClick={() => submitAnswer(optionIndex)}
@@ -118,12 +118,12 @@ export function LessonArena({ userId }: { userId: string }) {
           </div>
 
           {feedback ? (
-            <p className={`text-sm ${isCorrect ? "text-emerald-300" : "text-amber-300"}`}>
+            <p className={`text-sm ${isCorrect ? "text-emerald-600" : "text-amber-600"}`}>
               {feedback}
             </p>
           ) : null}
 
-          <div className="flex items-center justify-between text-xs text-slate-300">
+          <div className="flex items-center justify-between text-xs text-slate-600">
             <p>
               XP earned: {xpEarned} | Coins earned: {coinsEarned}
             </p>
@@ -131,7 +131,7 @@ export function LessonArena({ userId }: { userId: string }) {
               type="button"
               onClick={nextLesson}
               disabled={!canAdvance}
-              className="bg-cyan-400 text-slate-950 hover:bg-cyan-300"
+              className="bg-cyan-500 text-slate-950 hover:bg-cyan-400"
             >
               {index === lessonDeck.length - 1 ? "Restart Deck" : "Next Lesson"}
             </Button>

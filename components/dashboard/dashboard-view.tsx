@@ -55,41 +55,41 @@ export function DashboardView({
         transition={{ duration: 0.35 }}
         className="grid gap-3 md:grid-cols-4"
       >
-        <Card className="border-white/10 bg-slate-900/70">
+        <Card className="border-slate-200 bg-white">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-slate-300">Portfolio Value</CardTitle>
+            <CardTitle className="text-sm text-slate-600">Portfolio Value</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-semibold">{formatCurrency(latestWealth)}</p>
-            <p className={`text-xs ${delta >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
+            <p className={`text-xs ${delta >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
               {delta >= 0 ? "+" : ""}
               {deltaPct.toFixed(2)}% this year
             </p>
           </CardContent>
         </Card>
-        <Card className="border-white/10 bg-slate-900/70">
+        <Card className="border-slate-200 bg-white">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-slate-300">Level + XP</CardTitle>
+            <CardTitle className="text-sm text-slate-600">Level + XP</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-semibold">L{profile.level}</p>
-            <p className="text-xs text-slate-300">{profile.xp} XP total</p>
+            <p className="text-xs text-slate-600">{profile.xp} XP total</p>
           </CardContent>
         </Card>
-        <Card className="border-white/10 bg-slate-900/70">
+        <Card className="border-slate-200 bg-white">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-slate-300">Streak</CardTitle>
+            <CardTitle className="text-sm text-slate-600">Streak</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-semibold">{profile.streak} days</p>
-            <p className="text-xs text-slate-300">{profile.streakFreezes} freeze items</p>
+            <p className="text-xs text-slate-600">{profile.streakFreezes} freeze items</p>
           </CardContent>
         </Card>
-        <Card className="border-white/10 bg-slate-900/70">
+        <Card className="border-slate-200 bg-white">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-slate-300">Behavior Core</CardTitle>
+            <CardTitle className="text-sm text-slate-600">Behavior Core</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-1 text-xs text-slate-300">
+          <CardContent className="space-y-1 text-xs text-slate-600">
             <p>Discipline: {profile.discipline}</p>
             <p>Risk tolerance: {profile.riskTolerance}</p>
             <p>Patience: {profile.patience}</p>
@@ -98,7 +98,7 @@ export function DashboardView({
       </motion.section>
 
       <div className="grid gap-5 xl:grid-cols-[1.2fr_1fr]">
-        <Card className="border-white/10 bg-slate-900/70">
+        <Card className="border-slate-200 bg-white">
           <CardHeader>
             <CardTitle>Portfolio Value Timeline</CardTitle>
           </CardHeader>
@@ -127,7 +127,7 @@ export function DashboardView({
           </CardContent>
         </Card>
 
-        <Card className="border-white/10 bg-slate-900/70">
+        <Card className="border-slate-200 bg-white">
           <CardHeader>
             <CardTitle>Allocation Mix</CardTitle>
           </CardHeader>
@@ -149,7 +149,7 @@ export function DashboardView({
         </Card>
       </div>
 
-      <Card className="border-white/10 bg-slate-900/70">
+      <Card className="border-slate-200 bg-white">
         <CardHeader>
           <CardTitle>Returns vs Index</CardTitle>
         </CardHeader>
@@ -181,7 +181,7 @@ export function DashboardView({
       </Card>
 
       <div className="grid gap-5 lg:grid-cols-2">
-        <Card className="border-white/10 bg-slate-900/70">
+        <Card className="border-slate-200 bg-white">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Daily Missions</CardTitle>
             <Badge variant="secondary">{dailyMissions.length} active</Badge>
@@ -190,11 +190,11 @@ export function DashboardView({
             {dailyMissions.map((mission) => (
               <div
                 key={mission.id}
-                className="rounded-lg border border-white/10 bg-white/5 p-3 text-sm"
+                className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm"
               >
                 <p className="font-medium">{mission.title}</p>
-                <p className="text-xs text-slate-300">{mission.description}</p>
-                <p className="mt-1 text-xs text-cyan-200">
+                <p className="text-xs text-slate-600">{mission.description}</p>
+                <p className="mt-1 text-xs text-cyan-700">
                   +{mission.xp} XP | +{mission.coins} coins
                 </p>
               </div>
@@ -202,7 +202,7 @@ export function DashboardView({
           </CardContent>
         </Card>
 
-        <Card className="border-white/10 bg-slate-900/70">
+        <Card className="border-slate-200 bg-white">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Weekly Missions</CardTitle>
             <Badge variant="outline">Streak freeze ready</Badge>
@@ -211,11 +211,11 @@ export function DashboardView({
             {weeklyMissions.map((mission) => (
               <div
                 key={mission.id}
-                className="rounded-lg border border-white/10 bg-white/5 p-3 text-sm"
+                className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm"
               >
                 <p className="font-medium">{mission.title}</p>
-                <p className="text-xs text-slate-300">{mission.description}</p>
-                <p className="mt-1 text-xs text-cyan-200">
+                <p className="text-xs text-slate-600">{mission.description}</p>
+                <p className="mt-1 text-xs text-cyan-700">
                   +{mission.xp} XP | +{mission.coins} coins
                 </p>
               </div>
@@ -225,13 +225,13 @@ export function DashboardView({
       </div>
 
       <div className="grid gap-3 sm:grid-cols-3">
-        <Button asChild className="bg-cyan-400 font-semibold text-slate-950 hover:bg-cyan-300">
+        <Button asChild className="bg-cyan-500 font-semibold text-slate-950 hover:bg-cyan-400">
           <Link href="/learn">Learn</Link>
         </Button>
-        <Button asChild variant="outline" className="border-white/20 bg-white/5 text-slate-100 hover:bg-white/10">
+        <Button asChild variant="outline" className="border-slate-300 bg-slate-50 text-slate-900 hover:bg-slate-100">
           <Link href="/simulate">Simulate</Link>
         </Button>
-        <Button asChild variant="outline" className="border-white/20 bg-white/5 text-slate-100 hover:bg-white/10">
+        <Button asChild variant="outline" className="border-slate-300 bg-slate-50 text-slate-900 hover:bg-slate-100">
           <Link href="/portfolio">Build Portfolio</Link>
         </Button>
       </div>

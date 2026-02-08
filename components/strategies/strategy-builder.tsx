@@ -109,36 +109,36 @@ export function StrategyBuilder({ userId }: { userId: string }) {
 
   return (
     <div className="grid gap-5 xl:grid-cols-[1.1fr_1fr]">
-      <Card className="border-white/10 bg-slate-900/70">
+      <Card className="border-slate-200 bg-white">
         <CardHeader>
           <CardTitle>Rule-Based Strategy Builder</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-3 md:grid-cols-3">
-            <label className="space-y-1 text-xs text-slate-300">
+            <label className="space-y-1 text-xs text-slate-600">
               Strategy name
               <Input
                 value={name}
-                className="border-white/15 bg-slate-950/70"
+                className="border-slate-200 bg-slate-50"
                 onChange={(event) => setName(event.target.value)}
               />
             </label>
-            <label className="space-y-1 text-xs text-slate-300">
+            <label className="space-y-1 text-xs text-slate-600">
               Seed
               <Input
                 value={seed}
-                className="border-white/15 bg-slate-950/70"
+                className="border-slate-200 bg-slate-50"
                 onChange={(event) => setSeed(event.target.value)}
               />
             </label>
-            <label className="space-y-1 text-xs text-slate-300">
+            <label className="space-y-1 text-xs text-slate-600">
               Years
               <Input
                 type="number"
                 min={10}
                 max={50}
                 value={years}
-                className="border-white/15 bg-slate-950/70"
+                className="border-slate-200 bg-slate-50"
                 onChange={(event) =>
                   setYears(Math.min(50, Math.max(10, Number(event.target.value))))
                 }
@@ -148,7 +148,7 @@ export function StrategyBuilder({ userId }: { userId: string }) {
 
           <div className="space-y-3">
             {rules.map((rule) => (
-              <div key={rule.id} className="rounded-lg border border-white/10 bg-white/5 p-3">
+              <div key={rule.id} className="rounded-lg border border-slate-200 bg-slate-50 p-3">
                 <div className="grid gap-2 sm:grid-cols-5">
                   <select
                     value={rule.metric}
@@ -157,7 +157,7 @@ export function StrategyBuilder({ userId }: { userId: string }) {
                         metric: event.target.value as StrategyRule["metric"],
                       })
                     }
-                    className="rounded-md border border-white/20 bg-slate-950/70 px-2 py-2 text-sm"
+                    className="rounded-md border border-slate-300 bg-slate-50 px-2 py-2 text-sm"
                   >
                     {metricOptions.map((metric) => (
                       <option key={metric} value={metric}>
@@ -173,7 +173,7 @@ export function StrategyBuilder({ userId }: { userId: string }) {
                         operator: event.target.value as StrategyRule["operator"],
                       })
                     }
-                    className="rounded-md border border-white/20 bg-slate-950/70 px-2 py-2 text-sm"
+                    className="rounded-md border border-slate-300 bg-slate-50 px-2 py-2 text-sm"
                   >
                     {operatorOptions.map((operator) => (
                       <option key={operator} value={operator}>
@@ -185,7 +185,7 @@ export function StrategyBuilder({ userId }: { userId: string }) {
                   <Input
                     type="number"
                     value={rule.value}
-                    className="border-white/20 bg-slate-950/70"
+                    className="border-slate-300 bg-slate-50"
                     onChange={(event) =>
                       updateRule(rule.id, { value: Number(event.target.value) })
                     }
@@ -198,7 +198,7 @@ export function StrategyBuilder({ userId }: { userId: string }) {
                         action: event.target.value as StrategyRule["action"],
                       })
                     }
-                    className="rounded-md border border-white/20 bg-slate-950/70 px-2 py-2 text-sm"
+                    className="rounded-md border border-slate-300 bg-slate-50 px-2 py-2 text-sm"
                   >
                     {actionOptions.map((action) => (
                       <option key={action} value={action}>
@@ -210,7 +210,7 @@ export function StrategyBuilder({ userId }: { userId: string }) {
                   <Button
                     type="button"
                     variant="outline"
-                    className="border-white/15 bg-transparent text-slate-100 hover:bg-white/10"
+                    className="border-slate-200 bg-transparent text-slate-900 hover:bg-slate-100"
                     onClick={() => removeRule(rule.id)}
                   >
                     Remove
@@ -224,29 +224,29 @@ export function StrategyBuilder({ userId }: { userId: string }) {
             <Button
               type="button"
               variant="outline"
-              className="border-white/20 bg-white/5 text-slate-100 hover:bg-white/10"
+              className="border-slate-300 bg-slate-50 text-slate-900 hover:bg-slate-100"
               onClick={addRule}
             >
               Add Rule
             </Button>
             <Button
               type="button"
-              className="bg-cyan-400 font-semibold text-slate-950 hover:bg-cyan-300"
+              className="bg-cyan-500 font-semibold text-slate-950 hover:bg-cyan-400"
               onClick={saveStrategy}
             >
               Save Strategy
             </Button>
           </div>
-          {status ? <p className="text-xs text-slate-300">{status}</p> : null}
+          {status ? <p className="text-xs text-slate-600">{status}</p> : null}
         </CardContent>
       </Card>
 
-      <Card className="border-white/10 bg-slate-900/70">
+      <Card className="border-slate-200 bg-white">
         <CardHeader>
           <CardTitle>Backtest Preview</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="rounded-lg border border-white/10 bg-white/5 p-3 text-sm">
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm">
             <p>
               Ending wealth:{" "}
               <span className="font-semibold">{formatCurrency(simulation.endingWealth)}</span>
@@ -256,7 +256,7 @@ export function StrategyBuilder({ userId }: { userId: string }) {
             </p>
           </div>
 
-          <div className="h-72 rounded-lg border border-white/10 bg-slate-950/60 p-2">
+          <div className="h-72 rounded-lg border border-slate-200 bg-slate-50 p-2">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
                 <XAxis dataKey="year" stroke="#94a3b8" />

@@ -57,76 +57,76 @@ export function WealthTimeMachine() {
   );
 
   return (
-    <Card className="border-white/10 bg-slate-900/70">
+    <Card className="border-slate-200 bg-white">
       <CardHeader>
         <CardTitle>Wealth Time Machine</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid gap-3 sm:grid-cols-2">
-          <label className="space-y-1 text-xs text-slate-300">
+          <label className="space-y-1 text-xs text-slate-600">
             Start age
             <Input
               type="number"
               min={18}
               max={60}
               value={ageStart}
-              className="border-white/15 bg-slate-950/70"
+              className="border-slate-200 bg-slate-50"
               onChange={(event) => setAgeStart(Number(event.target.value))}
             />
           </label>
-          <label className="space-y-1 text-xs text-slate-300">
+          <label className="space-y-1 text-xs text-slate-600">
             End age
             <Input
               type="number"
               min={ageStart + 1}
               max={75}
               value={ageEnd}
-              className="border-white/15 bg-slate-950/70"
+              className="border-slate-200 bg-slate-50"
               onChange={(event) => setAgeEnd(Number(event.target.value))}
             />
           </label>
         </div>
 
-        <label className="space-y-1 text-xs text-slate-300">
+        <label className="space-y-1 text-xs text-slate-600">
           Monthly contribution
           <Input
             type="number"
             min={0}
             step={50}
             value={monthlyContribution}
-            className="border-white/15 bg-slate-950/70"
+            className="border-slate-200 bg-slate-50"
             onChange={(event) => setMonthlyContribution(Number(event.target.value))}
           />
         </label>
 
-        <label className="space-y-1 text-xs text-slate-300">
+        <label className="space-y-1 text-xs text-slate-600">
           Risk level ({risk})
           <Input
             type="range"
             min={10}
             max={90}
             value={risk}
-            className="border-white/15 bg-slate-950/70"
+            className="border-slate-200 bg-slate-50"
             onChange={(event) => setRisk(Number(event.target.value))}
           />
         </label>
 
-        <div className="grid gap-2 rounded-lg border border-white/10 bg-white/5 p-3 text-sm sm:grid-cols-3">
+        <div className="grid gap-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm sm:grid-cols-3">
           <div>
             <p className="text-xs text-slate-400">Conservative</p>
-            <p className="font-semibold text-slate-100">
+            <p className="font-semibold text-slate-900">
               {formatCurrency(projection.conservative)}
             </p>
           </div>
           <div>
             <p className="text-xs text-slate-400">Expected</p>
-            <p className="font-semibold text-cyan-200">
+            <p className="font-semibold text-cyan-700">
               {formatCurrency(projection.expected)}
             </p>
           </div>
           <div>
             <p className="text-xs text-slate-400">Aggressive</p>
-            <p className="font-semibold text-emerald-300">
+            <p className="font-semibold text-emerald-600">
               {formatCurrency(projection.aggressive)}
             </p>
           </div>

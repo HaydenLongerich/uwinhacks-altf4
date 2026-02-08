@@ -39,13 +39,13 @@ export function GoogleAuthButton({ label }: { label: string }) {
       <Button
         type="button"
         variant="outline"
-        className="w-full border-white/20 bg-white/5 text-slate-100 hover:bg-white/10"
+        className="w-full border-slate-200 bg-white text-slate-900 hover:bg-slate-50"
         onClick={onGoogleAuth}
         disabled={isLoading}
       >
         {isLoading ? "Redirecting..." : label}
       </Button>
-      {error ? <p className="text-xs text-rose-300">{error}</p> : null}
+      {error ? <p className="text-xs text-rose-600">{error}</p> : null}
     </div>
   );
 }

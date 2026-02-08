@@ -154,12 +154,12 @@ export function PortfolioBuilder({ userId }: { userId: string }) {
 
   return (
     <div className="grid gap-5 xl:grid-cols-[1.2fr_1fr]">
-      <Card className="border-white/10 bg-slate-900/70">
+      <Card className="border-slate-200 bg-white">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Drag & Drop Portfolio Builder</CardTitle>
           <Button
             variant="outline"
-            className="border-white/15 bg-white/5 text-slate-100 hover:bg-white/10"
+            className="border-slate-200 bg-slate-50 text-slate-900 hover:bg-slate-100"
             onClick={() => setAssets((current) => normalize(current))}
           >
             Normalize to 100%
@@ -173,14 +173,14 @@ export function PortfolioBuilder({ userId }: { userId: string }) {
               onDragStart={() => setDraggingId(asset.id)}
               onDragOver={(event) => event.preventDefault()}
               onDrop={() => onDrop(asset.id)}
-              className="rounded-lg border border-white/10 bg-white/5 p-3"
+              className="rounded-lg border border-slate-200 bg-slate-50 p-3"
             >
               <div className="flex items-center justify-between">
                 <p className="font-medium">{asset.name}</p>
-                <span className="text-xs uppercase text-slate-300">{asset.type}</span>
+                <span className="text-xs uppercase text-slate-600">{asset.type}</span>
               </div>
               <div className="mt-3 space-y-1">
-                <div className="flex items-center justify-between text-xs text-slate-300">
+                <div className="flex items-center justify-between text-xs text-slate-600">
                   <span>Allocation</span>
                   <span>{asset.allocation}%</span>
                 </div>
@@ -189,7 +189,7 @@ export function PortfolioBuilder({ userId }: { userId: string }) {
                   min={0}
                   max={100}
                   value={asset.allocation}
-                  className="border-white/15 bg-slate-950/70"
+                  className="border-slate-200 bg-slate-50"
                   onChange={(event) =>
                     updateAllocation(asset.id, Number(event.target.value))
                   }
@@ -200,14 +200,14 @@ export function PortfolioBuilder({ userId }: { userId: string }) {
         </CardContent>
       </Card>
 
-      <Card className="border-white/10 bg-slate-900/70">
+      <Card className="border-slate-200 bg-white">
         <CardHeader>
           <CardTitle>Live Meters</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="rounded-lg border border-white/10 bg-white/5 p-3">
-            <p className="text-xs text-slate-300">Total allocation</p>
-            <p className={`text-sm ${totalAllocation === 100 ? "text-emerald-300" : "text-amber-300"}`}>
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+            <p className="text-xs text-slate-600">Total allocation</p>
+            <p className={`text-sm ${totalAllocation === 100 ? "text-emerald-600" : "text-amber-600"}`}>
               {totalAllocation}%
             </p>
           </div>
@@ -218,13 +218,13 @@ export function PortfolioBuilder({ userId }: { userId: string }) {
               { label: "Stability", value: meters.stability },
             ].map((meter) => (
               <div key={meter.label} className="space-y-1">
-                <div className="flex items-center justify-between text-xs text-slate-300">
+                <div className="flex items-center justify-between text-xs text-slate-600">
                   <span>{meter.label}</span>
                   <span>{meter.value}</span>
                 </div>
-                <div className="h-2 rounded-full bg-white/10">
+                <div className="h-2 rounded-full bg-slate-100">
                   <div
-                    className="h-full rounded-full bg-cyan-400"
+                    className="h-full rounded-full bg-cyan-500"
                     style={{ width: `${meter.value}%` }}
                   />
                 </div>
@@ -232,22 +232,22 @@ export function PortfolioBuilder({ userId }: { userId: string }) {
             ))}
           </div>
 
-          <label className="space-y-1 text-xs text-slate-300">
+          <label className="space-y-1 text-xs text-slate-600">
             Template name
             <Input
               value={templateName}
-              className="border-white/15 bg-slate-950/70"
+              className="border-slate-200 bg-slate-50"
               onChange={(event) => setTemplateName(event.target.value)}
             />
           </label>
 
           <Button
-            className="w-full bg-cyan-400 font-semibold text-slate-950 hover:bg-cyan-300"
+            className="w-full bg-cyan-500 font-semibold text-slate-950 hover:bg-cyan-400"
             onClick={saveTemplate}
           >
             Save Template
           </Button>
-          {status ? <p className="text-xs text-slate-300">{status}</p> : null}
+          {status ? <p className="text-xs text-slate-600">{status}</p> : null}
         </CardContent>
       </Card>
     </div>

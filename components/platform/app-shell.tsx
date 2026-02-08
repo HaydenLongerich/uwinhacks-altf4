@@ -36,28 +36,31 @@ export function AppShell({
   const progress = levelProgress(profile);
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,#111f3d_0%,#060910_55%)] text-slate-100">
-      <header className="border-b border-white/10 bg-slate-950/80 backdrop-blur">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,#d8f1ff_0%,transparent_36%),radial-gradient(circle_at_88%_8%,#dbeafe_0%,transparent_34%),linear-gradient(180deg,#f8fdff_0%,#edf8ff_100%)] text-slate-900">
+      <header className="border-b border-slate-200/90 bg-white/80 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 md:px-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <Link href="/dashboard" className="text-xl font-semibold tracking-tight">
+            <Link
+              href="/dashboard"
+              className="text-xl font-semibold tracking-tight text-cyan-700"
+            >
               Alt F4 Invest
             </Link>
             <div className="flex items-center gap-2">
               <Badge variant="secondary">Level {profile.level}</Badge>
               <Badge variant="outline">{profile.coins} coins</Badge>
-              <span className="text-sm text-slate-300">{userEmail}</span>
+              <span className="text-sm text-slate-600">{userEmail}</span>
               <LogoutButton />
             </div>
           </div>
           <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs text-slate-300">
+            <div className="flex items-center justify-between text-xs text-slate-600">
               <span>XP {profile.xp}</span>
               <span>Streak {profile.streak} days</span>
             </div>
-            <div className="h-2 w-full rounded-full bg-white/10">
+            <div className="h-2 w-full rounded-full bg-slate-100">
               <div
-                className="h-full rounded-full bg-cyan-400 transition-all"
+                className="h-full rounded-full bg-cyan-500 transition-all"
                 style={{ width: `${Math.round(progress * 100)}%` }}
               />
             </div>
@@ -67,7 +70,7 @@ export function AppShell({
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-slate-200 transition hover:border-cyan-300/40 hover:bg-cyan-500/10"
+                className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700 shadow-sm transition hover:border-cyan-300 hover:bg-cyan-50"
               >
                 {item.label}
               </Link>

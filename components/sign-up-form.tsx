@@ -70,7 +70,7 @@ export function SignUpForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="border-white/10 bg-slate-900/70 text-slate-100 backdrop-blur">
+      <Card className="border-slate-200 bg-white text-slate-900">
         <CardHeader>
           <CardTitle className="text-2xl">Sign up</CardTitle>
           <CardDescription>Start your investing simulation journey.</CardDescription>
@@ -84,7 +84,7 @@ export function SignUpForm({
                   id="email"
                   type="email"
                   placeholder="m@example.com"
-                  className="border-white/20 bg-slate-950/70"
+                  className="border-slate-200 bg-white"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -97,7 +97,7 @@ export function SignUpForm({
                 <Input
                   id="password"
                   type="password"
-                  className="border-white/20 bg-slate-950/70"
+                  className="border-slate-200 bg-white"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -110,32 +110,32 @@ export function SignUpForm({
                 <Input
                   id="repeat-password"
                   type="password"
-                  className="border-white/20 bg-slate-950/70"
+                  className="border-slate-200 bg-white"
                   required
                   value={repeatPassword}
                   onChange={(e) => setRepeatPassword(e.target.value)}
                 />
               </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
+              {error && <p className="text-sm text-red-600">{error}</p>}
               <Button
                 type="submit"
-                className="w-full bg-cyan-400 font-semibold text-slate-950 hover:bg-cyan-300"
+                className="w-full bg-cyan-500 font-semibold text-slate-950 hover:bg-cyan-400"
                 disabled={isLoading}
               >
                 {isLoading ? "Creating an account..." : "Sign up"}
               </Button>
             </div>
             <div className="flex items-center gap-3 py-1">
-              <div className="h-px flex-1 bg-white/15" />
-              <span className="text-xs uppercase tracking-[0.2em] text-slate-400">
+              <div className="h-px flex-1 bg-slate-200" />
+              <span className="text-xs uppercase tracking-[0.2em] text-slate-500">
                 or
               </span>
-              <div className="h-px flex-1 bg-white/15" />
+              <div className="h-px flex-1 bg-slate-200" />
             </div>
             <GoogleAuthButton label="Sign up with Google" />
             <div className="mt-4 text-center text-sm">
               Already have an account?{" "}
-              <Link href="/auth/login" className="underline underline-offset-4 text-cyan-200">
+              <Link href="/auth/login" className="text-cyan-700 underline underline-offset-4">
                 Login
               </Link>
             </div>

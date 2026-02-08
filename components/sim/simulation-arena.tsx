@@ -183,20 +183,20 @@ export function SimulationArena({ userId }: { userId: string }) {
 
   return (
     <div className="space-y-5">
-      <Card className="border-white/10 bg-slate-900/70">
+      <Card className="border-slate-200 bg-white">
         <CardHeader>
           <CardTitle>Year-by-Year Simulator</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-3 md:grid-cols-4">
-          <label className="space-y-1 text-xs text-slate-300">
+          <label className="space-y-1 text-xs text-slate-600">
             Seed Universe
             <Input
               value={seed}
               onChange={(event) => setSeed(event.target.value)}
-              className="border-white/15 bg-slate-950/70"
+              className="border-slate-200 bg-slate-50"
             />
           </label>
-          <label className="space-y-1 text-xs text-slate-300">
+          <label className="space-y-1 text-xs text-slate-600">
             Years (10-50)
             <Input
               type="number"
@@ -206,10 +206,10 @@ export function SimulationArena({ userId }: { userId: string }) {
               onChange={(event) =>
                 setYears(Math.min(50, Math.max(10, Number(event.target.value))))
               }
-              className="border-white/15 bg-slate-950/70"
+              className="border-slate-200 bg-slate-50"
             />
           </label>
-          <label className="space-y-1 text-xs text-slate-300">
+          <label className="space-y-1 text-xs text-slate-600">
             Starting Wealth
             <Input
               type="number"
@@ -217,10 +217,10 @@ export function SimulationArena({ userId }: { userId: string }) {
               step={1000}
               value={startingWealth}
               onChange={(event) => setStartingWealth(Number(event.target.value))}
-              className="border-white/15 bg-slate-950/70"
+              className="border-slate-200 bg-slate-50"
             />
           </label>
-          <label className="space-y-1 text-xs text-slate-300">
+          <label className="space-y-1 text-xs text-slate-600">
             Yearly Contribution
             <Input
               type="number"
@@ -228,7 +228,7 @@ export function SimulationArena({ userId }: { userId: string }) {
               step={500}
               value={yearlyContribution}
               onChange={(event) => setYearlyContribution(Number(event.target.value))}
-              className="border-white/15 bg-slate-950/70"
+              className="border-slate-200 bg-slate-50"
             />
           </label>
         </CardContent>
@@ -237,14 +237,14 @@ export function SimulationArena({ userId }: { userId: string }) {
       {!started ? (
         <Button
           onClick={startRun}
-          className="bg-cyan-400 font-semibold text-slate-950 hover:bg-cyan-300"
+          className="bg-cyan-500 font-semibold text-slate-950 hover:bg-cyan-400"
         >
           Start Simulation
         </Button>
       ) : null}
 
       {started ? (
-        <Card className="border-white/10 bg-slate-900/70">
+        <Card className="border-slate-200 bg-white">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>
               {completed ? "Simulation Complete" : `Year ${currentYear + 1} / ${years}`}
@@ -255,18 +255,18 @@ export function SimulationArena({ userId }: { userId: string }) {
           </CardHeader>
           <CardContent className="space-y-4">
             {activeMarket ? (
-              <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
                   Market Event: {activeMarket.regime}
                 </p>
-                <p className="mt-2 text-sm text-slate-200">{activeMarket.headline}</p>
+                <p className="mt-2 text-sm text-slate-700">{activeMarket.headline}</p>
                 <p className="text-xs text-slate-400">
                   Return {Math.round(activeMarket.returnPct * 100)}% | Volatility{" "}
                   {Math.round(activeMarket.volatility * 100)}%
                 </p>
               </div>
             ) : (
-              <p className="text-sm text-slate-300">
+              <p className="text-sm text-slate-600">
                 All years completed. Save to view leaderboard and multiverse analysis.
               </p>
             )}
@@ -279,13 +279,13 @@ export function SimulationArena({ userId }: { userId: string }) {
                     type="button"
                     variant="outline"
                     onClick={() => chooseAction(option.action)}
-                    className="h-auto items-start justify-start border-white/15 bg-white/5 p-3 text-left text-slate-100 hover:bg-white/10"
+                    className="h-auto items-start justify-start border-slate-200 bg-slate-50 p-3 text-left text-slate-900 hover:bg-slate-100"
                   >
                     <span className="block">
                       <span className="block font-semibold uppercase">
                         {option.action}
                       </span>
-                      <span className="text-xs text-slate-300">{option.description}</span>
+                      <span className="text-xs text-slate-600">{option.description}</span>
                     </span>
                   </Button>
                 ))}
@@ -293,7 +293,7 @@ export function SimulationArena({ userId }: { userId: string }) {
             ) : null}
 
             {chartData.length > 0 ? (
-              <div className="h-72 rounded-lg border border-white/10 bg-slate-950/60 p-2">
+              <div className="h-72 rounded-lg border border-slate-200 bg-slate-50 p-2">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={chartData}>
                     <XAxis dataKey="year" stroke="#94a3b8" />
@@ -307,7 +307,7 @@ export function SimulationArena({ userId }: { userId: string }) {
             ) : null}
 
             {run ? (
-              <div className="grid gap-2 rounded-lg border border-white/10 bg-white/5 p-3 text-sm sm:grid-cols-3">
+              <div className="grid gap-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm sm:grid-cols-3">
                 <p>
                   Wealth: <span className="font-semibold">{formatCurrency(run.endingWealth)}</span>
                 </p>
@@ -325,12 +325,12 @@ export function SimulationArena({ userId }: { userId: string }) {
                 type="button"
                 onClick={saveResults}
                 disabled={isSaving}
-                className="w-full bg-cyan-400 font-semibold text-slate-950 hover:bg-cyan-300"
+                className="w-full bg-cyan-500 font-semibold text-slate-950 hover:bg-cyan-400"
               >
                 {isSaving ? "Saving..." : "View Results"}
               </Button>
             ) : null}
-            {status ? <p className="text-xs text-slate-300">{status}</p> : null}
+            {status ? <p className="text-xs text-slate-600">{status}</p> : null}
           </CardContent>
         </Card>
       ) : null}
