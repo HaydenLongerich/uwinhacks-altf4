@@ -1,24 +1,9 @@
 "use client";
 
-import {
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import { buildCoachAdvice, inferInvestorPersona } from "@/lib/engines/behavior";
+import { inferInvestorPersona } from "@/lib/engines/behavior";
 import type { PlatformProfile } from "@/lib/types/platform";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-interface BehaviorPoint {
-  run: string;
-  discipline: number;
-  panic: number;
-  consistency: number;
-}
 
 interface SimulationSummary {
   id: string;
@@ -38,22 +23,12 @@ function formatCurrency(value: number) {
 
 export function ProfileOverview({
   profile,
-  behaviorHistory,
   simulationHistory,
 }: {
   profile: PlatformProfile;
-  behaviorHistory: BehaviorPoint[];
   simulationHistory: SimulationSummary[];
 }) {
   const persona = inferInvestorPersona({
-    discipline: profile.discipline,
-    panic: 100 - profile.patience,
-    consistency: profile.patience,
-    riskTolerance: profile.riskTolerance,
-    patience: profile.patience,
-  });
-
-  const advice = buildCoachAdvice({
     discipline: profile.discipline,
     panic: 100 - profile.patience,
     consistency: profile.patience,
@@ -89,37 +64,6 @@ export function ProfileOverview({
           </div>
         </CardContent>
       </Card>
-
-      <div className="grid gap-5 xl:grid-cols-[1.2fr_1fr]">
-        <Card className="border-slate-200 bg-white">
-          <CardHeader>
-            <CardTitle>Behavior Trends</CardTitle>
-          </CardHeader>
-          <CardContent className="h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={behaviorHistory}>
-                <XAxis dataKey="run" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" />
-                <Tooltip />
-                <Line type="monotone" dataKey="discipline" stroke="#22d3ee" dot={false} />
-                <Line type="monotone" dataKey="panic" stroke="#f97316" dot={false} />
-                <Line type="monotone" dataKey="consistency" stroke="#a78bfa" dot={false} />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-
-        <Card className="border-slate-200 bg-white">
-          <CardHeader>
-            <CardTitle>AI Coach</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2 text-sm text-slate-700">
-            {advice.map((item) => (
-              <p key={item}>- {item}</p>
-            ))}
-          </CardContent>
-        </Card>
-      </div>
 
       <Card className="border-slate-200 bg-white">
         <CardHeader>
